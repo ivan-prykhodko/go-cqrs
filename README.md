@@ -1,0 +1,1 @@
+# Simple CQRS in Go

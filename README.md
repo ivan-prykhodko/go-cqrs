@@ -40,9 +40,9 @@ type CreatePostCommandResult struct {
 ```go
 type createPostCommandHandler struct{}
 
-func (h *createPostCommandHandler) Handle(ctx context.Context, input CreatePostCommand) (*CreatePostCommandResult, error) {
+func (h *createPostCommandHandler) Handle(ctx context.Context, input CreatePostCommand) (CreatePostCommandResult, error) {
     // Your business logic here
-    return &CreatePostCommandResult{EventId: "123"}, nil
+    return CreatePostCommandResult{EventId: "123"}, nil
 }
 ```
 

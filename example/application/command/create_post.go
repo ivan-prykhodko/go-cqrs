@@ -34,9 +34,9 @@ func newCreatePostCommandHandler() cqrs.Handler[CreatePostCommand, CreatePostCom
 	return &createPostCommandHandler{}
 }
 
-func (h *createPostCommandHandler) Handle(ctx context.Context, input CreatePostCommand) (*CreatePostCommandResult, error) {
+func (h *createPostCommandHandler) Handle(ctx context.Context, input CreatePostCommand) (CreatePostCommandResult, error) {
 	// do whatever you need here
 	time.Sleep(5 * time.Second)
 
-	return &CreatePostCommandResult{EventId: "123"}, nil
+	return CreatePostCommandResult{EventId: "123"}, nil
 }

@@ -25,11 +25,12 @@ type testHandler struct {
 	shouldFail bool
 }
 
-func (h *testHandler) Handle(ctx context.Context, input testInput) (*testOutput, error) {
+func (h *testHandler) Handle(ctx context.Context, input testInput) (testOutput, error) {
 	if h.shouldFail {
-		return nil, errors.New("handler error")
+		var zero testOutput
+		return zero, errors.New("handler error")
 	}
-	return &testOutput{Message: "Handled " + input.ID}, nil
+	return testOutput{Message: "Handled " + input.ID}, nil
 }
 
 func TestHandlerResolver(t *testing.T) {
@@ -86,7 +87,7 @@ func TestHandlerRegistration(t *testing.T) {
 		a.NoError(err)
 		a.NotNil(result)
 
-		output, ok := result.(*testOutput)
+		output, ok := result.(testOutput)
 		a.True(ok)
 		a.Eq("Handled 123", output.Message)
 	})
@@ -115,6 +116,6 @@ func TestHandlerRegistration(t *testing.T) {
 		a := assert.New(t)
 		a.Error(err)
 		a.Eq("handler error", err.Error())
-		a.Nil(result)
+		a.Eq(testOutput{}, result)
 	})
 }

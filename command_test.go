@@ -31,7 +31,7 @@ func TestDispatch(t *testing.T) {
 		a := assert.New(t)
 		a.Error(err)
 		a.True(errors.Is(err, ErrInvalidInput))
-		a.Nil(result)
+		a.Eq(testOutput{}, result)
 	})
 
 	t.Run("Fail to dispatch command - handler error", func(t *testing.T) {
@@ -46,7 +46,7 @@ func TestDispatch(t *testing.T) {
 		a := assert.New(t)
 		a.Error(err)
 		a.Eq("handler error", err.Error())
-		a.Nil(result)
+		a.Eq(testOutput{}, result)
 	})
 
 	t.Run("Fail to dispatch command - unexpected result type", func(t *testing.T) {
@@ -59,6 +59,6 @@ func TestDispatch(t *testing.T) {
 		a := assert.New(t)
 		a.Error(err)
 		a.True(errors.Is(err, ErrUnexpectedResultType))
-		a.Nil(result)
+		a.Eq(unexpectedResult{}, result)
 	})
 }

@@ -10,7 +10,7 @@ type Input interface {
 }
 
 type Handler[I any, R any] interface {
-	Handle(context.Context, I) (*R, error)
+	Handle(context.Context, I) (R, error)
 }
 
 type HandlerFunc func(context.Context, any) (any, error)

@@ -23,20 +23,22 @@ func (b *queryBus) resolver() HandlerResolver {
 	return b.r
 }
 
-func Ask[Q any, R any](ctx context.Context, bus QueryBus, query Q) (*R, error) {
+func Ask[Q any, R any](ctx context.Context, bus QueryBus, query Q) (R, error) {
+	var zero R
+
 	handler, err := bus.resolver().Resolve(query)
 	if err != nil {
-		return nil, err
+		return zero, err
 	}
 
 	result, err := handler.Invoke(ctx, query)
 	if err != nil {
-		return nil, err
+		return zero, err
 	}
 
-	typedResult, ok := result.(*R)
+	typedResult, ok := result.(R)
 	if !ok {
-		return nil, fmt.Errorf("%w: got %T", ErrUnexpectedResultType, result)
+		return zero, fmt.Errorf("%w: got %T", ErrUnexpectedResultType, result)
 	}
 
 	return typedResult, nil
